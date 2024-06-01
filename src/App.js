@@ -2,6 +2,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react/jsx-no-comment-textnodes */
 import './App.css';
+import 'antd/dist/reset.css'
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import CreateUserComp from './Components/CreateUserComp';
 import LoginUserComp from './Components/LoginUserComp';
@@ -13,9 +14,11 @@ import EditPresentComp from './Components/EditPresentComp';
 import AddFriendComp from './Components/AddFriendComp';
 import MyFriendsComp from './Components/MyFriendsComp';
 import GivePresentComp from './Components/GivePresentComp';
+import { Layout, Menu, message, notification } from 'antd';
+import { Content, Footer, Header } from 'antd/es/layout/layout';
 
 function App() {
-  let [notif, setNotif] = useState("")
+  let [api, contextHolder] = notification.useNotification()
   let [login, setLogin] = useState(false)
 
   let navigate = useNavigate()
@@ -25,9 +28,12 @@ function App() {
     //setLogin(false)
   }, [])  
   
-  let createNotif = (msg) => {
-    setNotif(msg)
-    setTimeout(() => {setNotif("")}, 3000)
+  let createNotif = (type = "info", msg, placement = "top") => {
+      api[type]({
+        message: msg,
+        description: msg,
+        placement
+      })
   }
 
   let disconnect = async () => {
@@ -38,40 +44,45 @@ function App() {
   }
 
   return (
-    <div className="main-container">
-      <nav>
-        <ul className='navbar'>
-          <li><Link to="/">Index</Link></li>
-          {!login && <li><Link to="/register">Register</Link></li>}
-          {!login && <li><Link to="/login">Log In</Link></li>}
-          {login && <li><Link to="/presents">Create Present</Link></li>}  
-          {login && <li><Link to="/myPresents">My Presents</Link></li>}   
-          {login && <li><Link to="/addFriend">Add friend</Link></li>}  
-          {login && <li><Link to="/myFriends">My friends</Link></li>}  
-          {login && <li><Link to="/givePresent">Give present!</Link></li>}  
-          {login && <li><Link to="#" onClick={disconnect}>Disconnect</Link></li>}  
-        </ul>
-      </nav>
+    <>
+      {contextHolder}
 
-      {notif != "" && (
-        <div className='notification'>
-          {notif}
-          <span className='close-btn' onClick={() => {setNotif("")}}>X</span>
-        </div>
-      )}
-      
-      <Routes>
-        <Route path="/" element={<p>Index of website</p>}/>
-        <Route path="/register" element={<CreateUserComp createNotification={createNotif}/>}/>
-        <Route path="/login" element={<LoginUserComp setLogin={setLogin}/>}/>
-        <Route path="/presents" element={<CreatePresentComp createNotification={createNotif} />}/>
-        <Route path="/myPresents" element={<MyPresentsComp createNotification={createNotif} />}/>
-        <Route path="/edit/:presentId" element={<EditPresentComp createNotification={createNotif} />}/>
-        <Route path="/addFriend" element={<AddFriendComp createNotification={createNotif} />}/>
-        <Route path="/myFriends" element={<MyFriendsComp createNotification={createNotif} />}/>
-        <Route path="/givePresent" element={<GivePresentComp createNotification={createNotif} />}/>
-      </Routes>
-    </div>
+      <Layout className='layout' style={{minHeight: '100vh'}}>
+        <Header>
+          {!login && (
+              <Menu mode='horizontal' theme='dark' items={[
+                {key: "menuRegister", label: <Link to="/register">Register</Link>},
+                {key: "menuLogin", label: <Link to="/login">Log In</Link>}
+              ]}></Menu>)}
+
+            {login && (
+            <Menu mode='horizontal' theme='dark' items= {[
+              {key: "menuPresents", label: <Link to="/presents">Create Present</Link>},
+              {key: "menuMyPresents", label: <Link to="/myPresents">My Presents</Link>},
+              {key: "menuAddFriend", label: <Link to="/addFriend">Add friend</Link>},      
+              {key: "menuMyFriends", label: <Link to="/myFriends">My friends</Link>},    
+              {key: "menuGivePresent", label: <Link to="/givePresent">Give present!</Link>},  
+              {key: "menuDisconnect", label: <Link to="#" onClick={disconnect}>Disconnect</Link>}]}>
+            </Menu>)}
+        </Header>
+
+        <Content style={{padding: "20px 50px"}}>
+            <Routes>
+              <Route path="/" element={<p>Index of website</p>}/>
+              <Route path="/register" element={<CreateUserComp createNotification={createNotif}/>}/>
+              <Route path="/login" element={<LoginUserComp setLogin={setLogin}/>}/>
+              <Route path="/presents" element={<CreatePresentComp createNotification={createNotif} />}/>
+              <Route path="/myPresents" element={<MyPresentsComp createNotification={createNotif} />}/>
+              <Route path="/edit/:presentId" element={<EditPresentComp createNotification={createNotif} />}/>
+              <Route path="/addFriend" element={<AddFriendComp createNotification={createNotif} />}/>
+              <Route path="/myFriends" element={<MyFriendsComp createNotification={createNotif} />}/>
+              <Route path="/givePresent" element={<GivePresentComp createNotification={createNotif} />}/>
+          </Routes>
+        </Content>
+
+        <Footer style={{textAlign: 'center'}}> My website </Footer>
+      </Layout>
+    </>
   )
 }
 

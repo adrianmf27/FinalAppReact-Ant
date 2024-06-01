@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { emailPattern } from "../Utils"
 import { backendUrl } from "../Globals"
-
+import { Button, Card, Col, Input, Row, Typography, Alert} from "antd";
 
 let CreateUserComp = (props) => {
     let {createNotification} = props
@@ -88,27 +88,29 @@ let CreateUserComp = (props) => {
         }
     }
 
-    return (
-        <div>
-            <h2>Register User</h2>
-            <h3>{message}</h3>
+    let {Text} = Typography
 
-            <div className="cener-box">
-                <div className="form-group">
-                    <input type="text" placeholder="enter your name" onChange={changeUserName}></input>
-                </div>
-                {error.name && <p className="errorForm">{error.name}</p>}
-                <div className="form-group">
-                    <input type="text" placeholder="enter your email" onChange={changeUserEmail}></input>
-                </div>
-                {error.email && <p className="errorForm">{error.email}</p>}
-                <div className="form-group">
-                    <input type="password" placeholder="enter your password" onChange={changeUserPass}></input>
-                </div>
-                {error.password && <p className="errorForm">{error.password}</p>}
-                <button onClick={clickCreate}>Create account</button>
-            </div>
-        </div>
+    return (
+        <Row align='middle'justify='center' style={{minHeight: "70vh"}}>
+            {message != "" && <Alert type="error" message={ message }/>}
+
+            <Col>
+                <Card title='Register' style={{minWidth: '300px', maxWidth: '500px'}}>
+                    <Input size="large" type="text" 
+                            placeholder="name" onChange={changeUserName}/>
+                    {error.name && <Text type="danger">{error.name}</Text>}
+                    <Input size="large" type="text" 
+                            placeholder="email" onChange={changeUserEmail}/>
+                    {error.email && <Text type="danger">{error.email}</Text>}
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                            placeholder="password" onChange={changeUserPass}/>
+                    {error.password && <Text type="danger">{error.password}</Text>}
+                    
+                    <Button style={{marginTop: "10px"}} type="primary" 
+                        onClick={clickCreate} block>Create account</Button>
+                </Card>
+            </Col>
+        </Row>
     )
 }
 
