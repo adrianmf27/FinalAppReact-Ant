@@ -94,7 +94,7 @@ let LoginUserComp = (props) => {
                 <Card title='Register' style={{minWidth: '300px', maxWidth: '500px'}}>
                     <Input size="large" type="text" 
                         placeholder="name" onChange={changeUserName}/>
-                    <Input size="large" type="text" 
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
                         placeholder="email" onChange={changeUserEmail}/>
                     <Input style={{marginTop: "10px"}} size="large" type="text" 
                         placeholder="password" onChange={changeUserPass}/>

@@ -1,7 +1,8 @@
 /* eslint-disable eqeqeq */
 import { useEffect, useState } from "react"
-import { Link, useNavigate, } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { backendUrl } from "../Globals"
+import { Button, Table } from "antd"
 
 let MyPresentsComp = (props) => {
     let {createNotification} = props
@@ -41,7 +42,7 @@ let MyPresentsComp = (props) => {
         {
             let updatedPresents = presents.filter(present => present.id != id)
             setPresents(updatedPresents)
-            createNotification("Present succesfully deleted")
+            createNotification("success", "Present succesfully deleted")
         }
         else
         {
@@ -54,29 +55,49 @@ let MyPresentsComp = (props) => {
         navigate("/edit/" + id)
     }
 
+    let columns = [
+        {
+            title: "Present name",
+            dataIndex: "name"
+        },
+        {
+            title: "Seller email",
+            dataIndex: "email"
+        },
+        {
+            title: "Present description",
+            dataIndex: "description"
+        },        
+        {
+            title: "Present URL",
+            dataIndex: "url"
+        },
+        {
+            title: "Present price",
+            dataIndex: "price"
+        }, 
+        {
+            title: "Choosen By",
+            dataIndex: "choosenBy"
+        },
+        {
+            title: "Delete",
+            dataIndex: "id",
+            render: (id) => <Button onClick={() => {onClickDeleteItem(id)}}>Delete</Button>
+        },
+        {
+            title: "Edit",
+            dataIndex: "id",
+            render: (id) => <Button onClick={() => {onClickEditItem(id)}}>Edit</Button>
+        }
+        
+    ]
+
     return (
         <div>
             <h2>My Presents</h2>
             {message !== "" && <h3 className="errorMessage">{message}</h3>}
-
-            <div className="item-list">
-                { presents.map (present => 
-                    (
-                        <div className="item">
-                            <h3 className="name">{present.name}</h3>
-                            <h3 className="description">Description: {present.description}</h3>
-                            <h3 className="url">URL: {present.url}</h3>
-                            <h3 className="price">Price: {present.price} €</h3>
-                            <h3 className="choosenBy">
-                                Choosen by: {present.choosenBy === "" 
-                                    || present.choosenBy == null ? "No one" : present.choosenBy}
-                            </h3>                                    
-                            <button onClick={() => {onClickEditItem(present.id)}}>Edit Item</button>
-                            <button onClick={() => {onClickDeleteItem(present.id)}}>Delete Item</button>   
-                        </div>                                      
-                    )
-                )}
-            </div>
+            <Table columns={columns} dataSource={presents}/>            
         </div>
     )
 }

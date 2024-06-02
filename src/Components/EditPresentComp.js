@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 import { backendUrl } from "../Globals";
 import { useNavigate, useParams } from "react-router-dom";
+import { Alert, Button, Card, Col, Input, Row } from "antd";
 
 let EditPresentComp = (props) => {
     let {createNotification} = props
     
-    let [message, setMessage] = useState("")
+    let [message, setMessage] = useState(null)
     let [present, setPresent] = useState([])
     
     let {presentId} = useParams()
@@ -61,35 +62,28 @@ let EditPresentComp = (props) => {
     }
 
     return (
-        <div>
-            <h2>Edit Item</h2>
-            {message !== "" && <h3 className="errorMessage">{message}</h3>}
-
-            <div className = "center-box">
-                <div className="form-group">
-                    <input type="text" placeholder="name" 
-                        onChange={e => changeProperty("name", e)}></input>
-                </div>
-               
-                <div className="form-group">
-                    <input type="text" placeholder="description" 
-                        onChange={e => changeProperty("description", e)}></input>
-                </div>
-             
-                <div className="form-group">
-                    <input type="text" placeholder="url" 
-                        onChange={e => changeProperty("url", e)}></input>
-                </div>
-
-                <div className="form-group">
-                    <input type="number" placeholder="price" 
-                        onChange={e => changeProperty("price", e)}></input>
-                </div>
-
-                <button onClick={clickEdit}>Edit Present</button>
-            </div>
+        <Row align='middle' justify='center' style={{minHeight: "70vh"}}>
+            {message != null && <Alert type="error" message={ message }/>}
             
-        </div>
+            <Col>
+                <Card title='Edit Present' style={{minWidth: '300px', maxWidth: '500px'}}>
+                    <Input size="large" type="text" 
+                            placeholder="name" onChange={e => changeProperty("name", e)}/>
+                    
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                            placeholder="description" onChange={e => changeProperty("description", e)}/>
+                    
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                            placeholder="url" onChange={e => changeProperty("url", e)}/>
+                   
+                    <Input style={{marginTop: "10px"}} size="large" type="number" 
+                            placeholder="price" onChange={e => changeProperty("price", e)}/>
+                   
+                    <Button style={{marginTop: "10px"}} type="primary" onClick={clickEdit} 
+                        block>Edit present</Button>
+                </Card>
+            </Col>
+        </Row>   
     )
 }
 

@@ -4,11 +4,12 @@ import { useState, useEffect } from "react"
 import { backendUrl } from "../Globals"
 import { _ } from "../Utils"
 import { useNavigate } from "react-router-dom"
+import { Alert, Button, Card, Col, Input, Row, Typography } from "antd"
 
 let CreatePresentComp = (props) => {
     let {createNotification} = props
 
-    let [message, setMessage] = useState("")
+    let [message, setMessage] = useState(null)
     let [present, setPresent] = useState({})
     let [error, setError] = useState({})
 
@@ -57,7 +58,7 @@ let CreatePresentComp = (props) => {
     
             if (res.ok)
             {
-                createNotification("Present created succesfully")
+                createNotification("success", "Present created succesfully")
                 navigate("/myPresents")
             }
             else
@@ -73,40 +74,35 @@ let CreatePresentComp = (props) => {
         }
     }
 
+    let { Text } = Typography
+
     return (
-        <div>
-            <h2>Create Presents</h2>
-            {message !== "" && <h3 className="errorMessage">{message}</h3>}
-
-            <div className = "center-box">
-                <div className="form-group">
-                    <input type="text" placeholder="name" 
-                        onChange={e => changeProperty("name", e)}></input>
-                </div>
-                {error.name && <p className="errorForm">{error.name}</p>}
-
-                <div className="form-group">
-                    <input type="text" placeholder="description" 
-                        onChange={e => changeProperty("description", e)}></input>
-                </div>
-                {error.description && <p className="errorForm">{error.description}</p>}
-
-                <div className="form-group">
-                    <input type="text" placeholder="url" 
-                        onChange={e => changeProperty("url", e)}></input>
-                </div>
-                {error.url && <p className="errorForm">{error.url}</p>}
-
-                <div className="form-group">
-                    <input type="number" placeholder="price" 
-                        onChange={e => changeProperty("price", e)}></input>
-                </div>
-                {error.price && <p className="errorForm">{error.price}</p>}
-
-                <button onClick={clickCreate}>Create Present</button>
-            </div>
+        <Row align='middle' justify='center' style={{minHeight: "70vh"}}>
+            {message != null && <Alert type="error" message={ message }/>}
             
-        </div>
+            <Col>
+                <Card title='Create Present' style={{minWidth: '300px', maxWidth: '500px'}}>
+                    <Input size="large" type="text" 
+                            placeholder="name" onChange={e => changeProperty("name", e)}/>
+                    {error.name && <Text type="danger">{error.name}</Text>}
+
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                            placeholder="description" onChange={e => changeProperty("description", e)}/>
+                    {error.description && <Text type="danger">{error.description}</Text>}
+
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                            placeholder="url" onChange={e => changeProperty("url", e)}/>
+                    {error.url && <Text type="danger">{error.url}</Text>}
+
+                    <Input style={{marginTop: "10px"}} size="large" type="number" 
+                            placeholder="price" onChange={e => changeProperty("price", e)}/>
+                    {error.price && <Text type="danger">{error.price}</Text>}
+
+                    <Button style={{marginTop: "10px"}} type="primary" onClick={clickCreate} 
+                        block>Create present</Button>
+                </Card>
+            </Col>
+        </Row>   
     )
     
 }

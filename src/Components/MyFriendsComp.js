@@ -1,13 +1,14 @@
 /* eslint-disable eqeqeq */
 import { useEffect, useState } from "react"
 import { backendUrl } from "../Globals"
+import { Button, Table } from "antd"
 
 
 let MyFriendsComp = (props) => {
     let {createNotification} = props
 
     let [friends, setFriends] = useState([])
-    let [message, setMessage] = useState("")
+    let [message, setMessage] = useState(null)
 
     useEffect(() => {
         getFriends()
@@ -21,29 +22,8 @@ let MyFriendsComp = (props) => {
     
         if (response.ok) 
         {
-            let jsonData = await response.json();
-            setFriends(jsonData);
-        } 
-        else 
-        {
-            let jsonData = await response.json();
-            setMessage(jsonData.error);
-        }
-    }
-    
-
-    let onClickDeleteFriend = async (emailFriend) => {
-        createNotification(emailFriend)
-        createNotification(backendUrl + "/friends/" + emailFriend + "?apiKey=" 
-        + localStorage.getItem("apiKey"))
-        let response = await fetch(backendUrl + "/friends/" + emailFriend + "?apiKey=" 
-            + localStorage.getItem("apiKey"), { method: "DELETE" })
-    
-        if (response.ok) 
-        {
-            let updatedFriends = friends?.filter(friend => friend.emailFriend != emailFriend)
-            setFriends(updatedFriends)
-            createNotification("Friend successfully deleted")
+            let jsonData = await response.json()
+            setFriends(jsonData)
         } 
         else 
         {
@@ -53,22 +33,40 @@ let MyFriendsComp = (props) => {
     }
     
 
+    let onClickDeleteFriend = async (emailFriend) => {
+        let response = await fetch(backendUrl + "/friends/" + emailFriend + "?apiKey=" 
+            + localStorage.getItem("apiKey"), { method: "DELETE" })
+    
+        if (response.ok) 
+        {
+            let updatedFriends = friends?.filter(friend => friend.emailFriend != emailFriend)
+            setFriends(updatedFriends)
+            createNotification("success", "Friend successfully deleted")
+        } 
+        else 
+        {
+            let jsonData = await response.json()
+            setMessage(jsonData.error)
+        }
+    }
+    
+    let columns = [
+        {
+            title: "Friend email",
+            dataIndex: "emailFriend"
+        },
+        {
+            title: "Delete",
+            dataIndex: "emailFriend",
+            render: (emailFriend) => <Button onClick={() => {onClickDeleteFriend(emailFriend)}}>Delete</Button>
+        }        
+    ]
+
     return (
         <div>
             <h2>My friends</h2>
-            {message !== "" && <h3 className="errorMessage">{message}</h3>}
-
-            <div className="item-list">
-                {friends.map ( (friend, key) => 
-                    (
-                        <div className="item">
-                            <h3 className="email">{friend.emailFriend}</h3>
-                            <button onClick={() => 
-                                {onClickDeleteFriend(friend.emailFriend)}}>Delete friend</button>                              
-                        </div>                                               
-                    )
-                )}
-            </div>
+            {message !== null && <h3 className="errorMessage">{message}</h3>}
+            <Table columns={columns} dataSource={friends}/>   
         </div>
     )
 }

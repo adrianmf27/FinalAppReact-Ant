@@ -68,7 +68,7 @@ let CreateUserComp = (props) => {
 
         if (res.ok)
         {
-            createNotification("User created succesfully")
+            createNotification("success", "User created succesfully")
             navigate("/login")
         }
         else
@@ -92,14 +92,14 @@ let CreateUserComp = (props) => {
 
     return (
         <Row align='middle'justify='center' style={{minHeight: "70vh"}}>
-            {message != "" && <Alert type="error" message={ message }/>}
+            {message != null && <Alert type="error" message={ message }/>}
 
             <Col>
                 <Card title='Register' style={{minWidth: '300px', maxWidth: '500px'}}>
                     <Input size="large" type="text" 
                             placeholder="name" onChange={changeUserName}/>
                     {error.name && <Text type="danger">{error.name}</Text>}
-                    <Input size="large" type="text" 
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
                             placeholder="email" onChange={changeUserEmail}/>
                     {error.email && <Text type="danger">{error.email}</Text>}
                     <Input style={{marginTop: "10px"}} size="large" type="text" 

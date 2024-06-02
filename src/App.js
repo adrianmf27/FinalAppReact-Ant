@@ -14,7 +14,7 @@ import EditPresentComp from './Components/EditPresentComp';
 import AddFriendComp from './Components/AddFriendComp';
 import MyFriendsComp from './Components/MyFriendsComp';
 import GivePresentComp from './Components/GivePresentComp';
-import { Layout, Menu, message, notification } from 'antd';
+import { Layout, Menu, notification } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 
 function App() {
@@ -24,8 +24,10 @@ function App() {
   let navigate = useNavigate()
 
   useEffect(() => {
-    navigate("/")
-    //setLogin(false)
+      if(localStorage.getItem("apiKey") != null)
+      {
+        setLogin(true)
+      }
   }, [])  
   
   let createNotif = (type = "info", msg, placement = "top") => {

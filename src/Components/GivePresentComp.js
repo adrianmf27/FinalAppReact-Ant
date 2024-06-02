@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { emailPattern } from "../Utils"
 import { backendUrl } from "../Globals"
+import { Alert, Button, Card, Col, Input, Row, Table, Typography } from "antd"
 
 let GivePresentComp = (props) =>{
     let {createNotification} = props
@@ -40,7 +41,7 @@ let GivePresentComp = (props) =>{
 
         if (res.ok)
         {
-            createNotification("Friend found")
+            createNotification("success", "Friend found")
 
             let resFriend = await fetch(backendUrl + "/presents?userEmail=" + emailFriend + "&apiKey=" 
                 + localStorage.getItem("apiKey"))
@@ -51,7 +52,7 @@ let GivePresentComp = (props) =>{
 
                 if(jsonData.length == 0)
                 {
-                    createNotification("This user has no presents")
+                    createNotification("error", "This user has no presents")
                 }
                 else
                 {
@@ -77,7 +78,7 @@ let GivePresentComp = (props) =>{
         
         if(response.ok)
         {
-            createNotification("Present succesfully choosed")
+            createNotification("success", "Present succesfully choosed")
         }
         else
         {
@@ -89,33 +90,54 @@ let GivePresentComp = (props) =>{
         }
     }
 
+    let columns = [
+        {
+            title: "Present name",
+            dataIndex: "name"
+        },
+        {
+            title: "Seller email",
+            dataIndex: "email"
+        },
+        {
+            title: "Present description",
+            dataIndex: "description"
+        },        
+        {
+            title: "Present URL",
+            dataIndex: "url"
+        },
+        {
+            title: "Present price",
+            dataIndex: "price"
+        },
+        {
+            title: "Choosen By",
+            dataIndex: "id",
+            render: (id) => <Button onClick={() => {onClickChoose(id)}}>Choose present</Button>
+        }        
+    ]
+
+    let { Text } = Typography
+
     return (
         <div>
-            <h2>Search for a friend</h2>
-            <h3>{message}</h3>
+            <Row align='middle' justify='center' style={{minHeight: "70vh"}}>
+                {message != null && <Alert type="error" message={ message }/>}
+                
+                <Col>
+                    <Card title='Add Friend Email' style={{minWidth: '300px', maxWidth: '500px'}}>
+                        <Input size="large" type="text" 
+                            placeholder="enter your friend email" onChange={searchFriendEmail}/>
+                        {error.email && <Text type="danger">{error.email}</Text>}
 
-            <div className="cener-box">
-                <div className="form-group">
-                    <input type="text" placeholder="enter your friend email" 
-                        onChange={searchFriendEmail}></input>
-                </div>
-                {error.email && <p className="errorForm">{error.email}</p>}
-                <button onClick={clickSearchFriend}>Search friend</button>
-            </div>
+                        <Button style={{marginTop: "10px"}} type="primary" onClick={clickSearchFriend} 
+                            block>Search friend email</Button>
+                    </Card>
+                </Col>
+            </Row> 
 
-            <div className="item-list">
-                { presents.length > 0 && presents?.map (present => 
-                    (
-                        <div className="item">
-                            <h3 className="name">Title: {present.name}</h3>
-                            <h3 className="description">Description: {present.description}</h3>
-                            <h3 className="url">URL: {present.url}</h3>
-                            <h3 className="price">Price: {present.price} €</h3>
-                            <button onClick={() => {onClickChoose(present.id)}}>Choose</button>                              
-                        </div>                                              
-                    )
-                )}
-            </div>
+           {presents?.length > 0 && <Table columns={columns} dataSource={presents}/>}
         </div>
     )
 }

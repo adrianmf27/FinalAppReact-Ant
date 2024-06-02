@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { backendUrl } from "../Globals"
 import { useNavigate } from "react-router-dom"
 import { emailPattern } from "../Utils"
+import { Alert, Button, Card, Col, Input, Row, Typography } from "antd"
 
 
 let AddFriendComp = (props) => {
@@ -45,7 +46,7 @@ let AddFriendComp = (props) => {
 
         if (res.ok)
         {
-            createNotification("Friend added succesfully")
+            createNotification("success", "Friend added succesfully")
             navigate("/myFriends")
         }
         else
@@ -65,20 +66,23 @@ let AddFriendComp = (props) => {
         }
     }
 
-    return (
-        <div>
-            <h2>Add a friend</h2>
-            <h3>{message}</h3>
+    let { Text } = Typography
 
-            <div className="cener-box">
-                <div className="form-group">
-                    <input type="text" placeholder="enter your friend email" 
-                        onChange={changeFriendEmail}></input>
-                </div>
-                {error.email && <p className="errorForm">{error.email}</p>}
-                <button onClick={clickAddFriend}>Add Friend</button>
-            </div>
-        </div>
+    return (
+        <Row align='middle' justify='center' style={{minHeight: "70vh"}}>
+            {message != null && <Alert type="error" message={ message }/>}
+            
+            <Col>
+                <Card title='Add Friend Email' style={{minWidth: '300px', maxWidth: '500px'}}>
+                    <Input size="large" type="text" 
+                        placeholder="enter your friend email" onChange={changeFriendEmail}/>
+                    {error.email && <Text type="danger">{error.email}</Text>}
+
+                    <Button style={{marginTop: "10px"}} type="primary" onClick={clickAddFriend} 
+                        block>Add friend email</Button>
+                </Card>
+            </Col>
+        </Row>   
     )
 }
 
