@@ -16,6 +16,7 @@ import MyFriendsComp from './Components/MyFriendsComp';
 import GivePresentComp from './Components/GivePresentComp';
 import { Layout, Menu, notification } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
+import ChoosenPresentsPage from './Components/ChosenPresentsPage';
 
 function App() {
   let [api, contextHolder] = notification.useNotification()
@@ -60,7 +61,8 @@ function App() {
               {key: "menuMyPresents", label: <Link to="/myPresents">My Presents</Link>},
               {key: "menuAddFriend", label: <Link to="/addFriend">Add friend</Link>},      
               {key: "menuMyFriends", label: <Link to="/myFriends">My friends</Link>},    
-              {key: "menuGivePresent", label: <Link to="/givePresent">Give present!</Link>},  
+              {key: "menuGivePresent", label: <Link to="/givePresent">Give present!</Link>}, 
+              {key: "menuChoosenPresents", label: <Link to="/choosen">Choosen Presents</Link>},  
               {key: "menuDisconnect", label: <Link to="#" onClick={disconnect}>Disconnect</Link>}]}>
             </Menu>)}
         </Header>
@@ -76,6 +78,7 @@ function App() {
               <Route path="/addFriend" element={<AddFriendComp createNotification={createNotif} />}/>
               <Route path="/myFriends" element={<MyFriendsComp createNotification={createNotif} />}/>
               <Route path="/givePresent" element={<GivePresentComp createNotification={createNotif} />}/>
+              <Route path="/choosen" element={<ChoosenPresentsPage createNotification={createNotif} />}/>
           </Routes>
         </Content>
 

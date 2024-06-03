@@ -94,7 +94,6 @@ let MyPresentsComp = (props) => {
             dataIndex: "id",
             render: (id) => <Button onClick={() => {onClickEditItem(id)}}>Edit</Button>
         }
-        
     ]
 
     return (
