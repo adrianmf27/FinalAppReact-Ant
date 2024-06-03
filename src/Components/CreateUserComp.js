@@ -99,10 +99,12 @@ let CreateUserComp = (props) => {
                     <Input size="large" type="text" 
                             placeholder="name" onChange={changeUserName}/>
                     {error.name && <Text type="danger">{error.name}</Text>}
+
                     <Input style={{marginTop: "10px"}} size="large" type="text" 
                             placeholder="email" onChange={changeUserEmail}/>
                     {error.email && <Text type="danger">{error.email}</Text>}
-                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                    
+                    <Input style={{marginTop: "10px"}} size="large" type="password" 
                             placeholder="password" onChange={changeUserPass}/>
                     {error.password && <Text type="danger">{error.password}</Text>}
                     

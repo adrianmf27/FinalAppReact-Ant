@@ -91,12 +91,12 @@ let LoginUserComp = (props) => {
     return (
         <Row align='middle'justify='center' style={{minHeight: "70vh"}}>
             <Col>
-                <Card title='Register' style={{minWidth: '300px', maxWidth: '500px'}}>
+                <Card title='Log In' style={{minWidth: '300px', maxWidth: '500px'}}>
                     <Input size="large" type="text" 
                         placeholder="name" onChange={changeUserName}/>
                     <Input style={{marginTop: "10px"}} size="large" type="text" 
                         placeholder="email" onChange={changeUserEmail}/>
-                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                    <Input style={{marginTop: "10px"}} size="large" type="password" 
                         placeholder="password" onChange={changeUserPass}/>
                         
                     <Button style={{marginTop: "10px"}} type="primary" 

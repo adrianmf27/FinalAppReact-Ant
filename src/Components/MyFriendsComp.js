@@ -56,6 +56,10 @@ let MyFriendsComp = (props) => {
             dataIndex: "emailFriend"
         },
         {
+            title: "List Identifier",
+            dataIndex: "listId"
+        },
+        {
             title: "Delete",
             dataIndex: "emailFriend",
             render: (emailFriend) => <Button onClick={() => {onClickDeleteFriend(emailFriend)}}>Delete</Button>

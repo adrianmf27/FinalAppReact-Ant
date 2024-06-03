@@ -24,10 +24,7 @@ function App() {
   let navigate = useNavigate()
 
   useEffect(() => {
-      if(localStorage.getItem("apiKey") != null)
-      {
-        setLogin(true)
-      }
+      disconnect()
   }, [])  
   
   let createNotif = (type = "info", msg, placement = "top") => {

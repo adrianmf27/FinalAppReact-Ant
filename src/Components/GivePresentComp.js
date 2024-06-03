@@ -14,6 +14,9 @@ let GivePresentComp = (props) =>{
     let [error, setError] = useState({})
     let [message, setMessage] = useState(null)
 
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+    const disableButton = () => {  setIsButtonDisabled(!isButtonDisabled)  }
+
     useEffect(() => {
         checkInputErrors()
     }, [emailFriend])
@@ -32,6 +35,13 @@ let GivePresentComp = (props) =>{
 
     let searchFriendEmail = (e) => {
         let emailFriend = e.currentTarget.value
+
+        if(emailFriend == localStorage.getItem("email"))
+        {            
+            return setMessage("You can not search for yourself")
+        }
+        
+        setMessage(null)
         changeEmailFriend(emailFriend)
     }
 
@@ -52,7 +62,7 @@ let GivePresentComp = (props) =>{
 
                 if(jsonData.length == 0)
                 {
-                    createNotification("error", "This user has no presents")
+                    createNotification("error", "This user has no presents available")
                 }
                 else
                 {
@@ -96,10 +106,6 @@ let GivePresentComp = (props) =>{
             dataIndex: "name"
         },
         {
-            title: "Seller email",
-            dataIndex: "email"
-        },
-        {
             title: "Present description",
             dataIndex: "description"
         },        
@@ -110,6 +116,10 @@ let GivePresentComp = (props) =>{
         {
             title: "Present price",
             dataIndex: "price"
+        },
+        {
+            title: "List Identifier",
+            dataIndex: "listId"
         },
         {
             title: "Choosen By",
@@ -132,7 +142,7 @@ let GivePresentComp = (props) =>{
                         {error.email && <Text type="danger">{error.email}</Text>}
 
                         <Button style={{marginTop: "10px"}} type="primary" onClick={clickSearchFriend} 
-                            block>Search friend email</Button>
+                            disabled = {message != null} block>Search friend email</Button>
                     </Card>
                 </Col>
             </Row> 

@@ -81,6 +81,10 @@ let MyPresentsComp = (props) => {
             dataIndex: "choosenBy"
         },
         {
+            title: "List Identifier",
+            dataIndex: "listId"
+        },
+        {
             title: "Delete",
             dataIndex: "id",
             render: (id) => <Button onClick={() => {onClickDeleteItem(id)}}>Delete</Button>

@@ -35,7 +35,6 @@ let EditPresentComp = (props) => {
         }
     }
 
-
     let changeProperty = (propertyName, e) => {
         let presentNew = {...present, [propertyName] : e.currentTarget.value}
         setPresent(presentNew)
@@ -79,6 +78,9 @@ let EditPresentComp = (props) => {
                     <Input style={{marginTop: "10px"}} size="large" type="number" 
                             placeholder="price" onChange={e => changeProperty("price", e)}/>
                    
+                   <Input style={{marginTop: "10px"}} size="large" type="text" 
+                            placeholder="list identifier" onChange={e => changeProperty("listId", e)}/>
+
                     <Button style={{marginTop: "10px"}} type="primary" onClick={clickEdit} 
                         block>Edit present</Button>
                 </Card>
