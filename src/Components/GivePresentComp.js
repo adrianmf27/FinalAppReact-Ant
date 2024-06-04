@@ -14,9 +14,6 @@ let GivePresentComp = (props) =>{
     let [error, setError] = useState({})
     let [message, setMessage] = useState(null)
 
-    const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-    const disableButton = () => {  setIsButtonDisabled(!isButtonDisabled)  }
-
     useEffect(() => {
         checkInputErrors()
     }, [emailFriend])

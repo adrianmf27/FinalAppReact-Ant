@@ -26,11 +26,15 @@ let ChoosenPresentsPage = (props) => {
             {
                 let data = await response.json()
 
-                if(data.lenght == 0)
+                if(data.length > 0)
                 {
                     setChosenPresents(data)
                     createNotification("success", "Presents found")    
                 }   
+                else
+                {
+                    createNotification("error", "No presents choosed")   
+                }
             } 
             else 
             {
