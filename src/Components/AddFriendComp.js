@@ -10,7 +10,8 @@ import { Alert, Button, Card, Col, Input, Row, Typography } from "antd"
 let AddFriendComp = (props) => {
     let {createNotification} = props
     let [emailFriend, changeEmailFriend] = useState(null)
-
+    let [listIdentifier, changeListIdentifier] = useState(null)
+    
     let [error, setError] = useState({})
     let [message, setMessage] = useState(null)
 
@@ -29,6 +30,11 @@ let AddFriendComp = (props) => {
             updatedErrors.email = "Incorrect email format"
         }
 
+        if(listIdentifier == "")
+        {
+            updatedErrors.listId = "Incorrect list identifier"
+        }
+
         setError(updatedErrors)
     }
 
@@ -37,11 +43,16 @@ let AddFriendComp = (props) => {
         changeEmailFriend(emailFriend)
     }
 
+    let changeListId = (e) => {
+        let listId = e.currentTarget.value
+        changeListIdentifier(listId)
+    }
+
     let clickAddFriend = async (e) => {
         let res = await fetch(backendUrl + "/friends?apiKey=" + localStorage.getItem("apiKey"), {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify({ email : emailFriend })
+            body: JSON.stringify({ email : emailFriend, listId : listIdentifier })
         })
 
         if (res.ok)
@@ -77,6 +88,10 @@ let AddFriendComp = (props) => {
                     <Input size="large" type="text" 
                         placeholder="enter your friend email" onChange={changeFriendEmail}/>
                     {error.email && <Text type="danger">{error.email}</Text>}
+
+                    <Input style={{marginTop: "10px"}} size="large" type="text" 
+                        placeholder="list identifier" onChange={changeListId}/>
+                    {error.listId && <Text type="danger">{error.listId}</Text>}
 
                     <Button style={{marginTop: "10px"}} type="primary" onClick={clickAddFriend} 
                         block>Add friend email</Button>

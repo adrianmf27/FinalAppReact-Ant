@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Table } from "antd";
@@ -24,8 +25,12 @@ let ChoosenPresentsPage = (props) => {
             if (response.ok) 
             {
                 let data = await response.json()
-                setChosenPresents(data)
-                createNotification("success", "Presents found")                
+
+                if(data.lenght == 0)
+                {
+                    setChosenPresents(data)
+                    createNotification("success", "Presents found")    
+                }   
             } 
             else 
             {
