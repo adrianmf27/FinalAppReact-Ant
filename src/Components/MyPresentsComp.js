@@ -73,7 +73,7 @@ let MyPresentsComp = (props) => {
             dataIndex: "url"
         },
         {
-            title: "Present price",
+            title: "Present price (euros)",
             dataIndex: "price"
         }, 
         {
